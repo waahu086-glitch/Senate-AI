@@ -1,0 +1,72 @@
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const themeToggle = document.getElementById("themeToggle");
+
+// Send message
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  showTyping();
+
+  setTimeout(() => {
+    botReply(text);
+  }, 800);
+}
+
+// Add message
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.classList.add("msg", type);
+  div.innerText = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// Typing indicator
+function showTyping() {
+  const typing = document.createElement("div");
+  typing.classList.add("msg", "bot");
+  typing.id = "typing";
+  typing.innerText = "Typing...";
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// Remove typing
+function removeTyping() {
+  const typing = document.getElementById("typing");
+  if (typing) typing.remove();
+}
+
+// Bot logic (upgrade point → replace with AI API later)
+function botReply(text) {
+  removeTyping();
+
+  let reply = "I don't understand that yet.";
+
+  const msg = text.toLowerCase();
+
+  if (msg.includes("hello")) {
+    reply = "Hello! 👋 How can I help you today?";
+  }
+  else if (msg.includes("name")) {
+    reply = "I'm AI Chatbot Pro 🤖";
+  }
+  else if (msg.includes("help")) {
+    reply = "Ask me anything — I'm here to assist you!";
+  }
+  else if (msg.includes("how are you")) {
+    reply = "I'm just code, but I'm running perfectly ⚡";
+  }
+
+  addMessage(reply, "bot");
+}
+
+// Dark mode toggle
+themeToggle.onclick = () => {
+  document.body.classList.toggle("dark");
+};
